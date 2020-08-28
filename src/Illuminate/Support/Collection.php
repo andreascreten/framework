@@ -122,6 +122,30 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
+     * Get the standard deviation of a given key.
+     *
+     * @param string|array|null $key
+     * @return float
+     */
+    public function stdDev($key = null): float
+    {
+        $values = (isset($key) ? $this->pluck($key) : $this)->values();
+        $count = $values->count();
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        $average = $this->average($key);
+
+        $deviations = $values->map(function ($value) use ($average) {
+            return ($value - $average) ** 2;
+        });
+
+        return (float)sqrt($deviations->sum() / $count);
+    }
+
+    /**
      * Get the mode of a given key.
      *
      * @param  string|array|null  $key

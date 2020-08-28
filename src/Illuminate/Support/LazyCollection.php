@@ -159,6 +159,17 @@ class LazyCollection implements Enumerable
     }
 
     /**
+     * Get the standard deviation of a given key.
+     *
+     * @param  callable|string|null  $callback
+     * @return mixed
+     */
+    public function stdDev($callback = null)
+    {
+        return $this->collect()->stdDev($callback);
+    }
+
+    /**
      * Get the median of a given key.
      *
      * @param  string|array|null  $key

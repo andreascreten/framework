@@ -3310,6 +3310,78 @@ class SupportCollectionTest extends TestCase
     /**
      * @dataProvider collectionClassProvider
      */
+    public function testStdDevValueWithArrayCollection($collection)
+    {
+        $data = new $collection([1, 2, 2, 4]);
+
+        $this->assertEquals(1.0897247358851685, $data->stdDev());
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testStdDevValueByKey($collection)
+    {
+        $data = new $collection([
+            (object) ['foo' => 1],
+            (object) ['foo' => 2],
+            (object) ['foo' => 2],
+            (object) ['foo' => 4],
+        ]);
+        $this->assertEquals(1.0897247358851685, $data->stdDev('foo'));
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testStdDevOnCollectionWithNull($collection)
+    {
+        $data = new $collection([
+            (object) ['foo' => 1],
+            (object) ['foo' => 2],
+            (object) ['foo' => 4],
+            (object) ['foo' => null],
+        ]);
+        $this->assertEquals(1.5898986690282426, $data->stdDev('foo'));
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testEvenStdDevCollection($collection)
+    {
+        $data = new $collection([
+            (object) ['foo' => 0],
+            (object) ['foo' => 3],
+        ]);
+        $this->assertEquals(1.5, $data->stdDev('foo'));
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testStdDevOutOfOrderCollection($collection)
+    {
+        $data = new $collection([
+            (object) ['foo' => 0],
+            (object) ['foo' => 5],
+            (object) ['foo' => 3],
+        ]);
+        $this->assertEquals(2.0548046676563256, $data->stdDev('foo'));
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testStdDevOnEmptyCollectionReturnsZero($collection)
+    {
+        $data = new $collection;
+        $this->assertEquals(0, $data->stdDev());
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
     public function testJsonSerialize($collection)
     {
         $c = new $collection([

@@ -121,6 +121,17 @@ trait EnumeratesValues
     }
 
     /**
+     * Alias for the "stdDev" method.
+     *
+     * @param  callable|string|null  $callback
+     * @return mixed
+     */
+    public function standardDeviation($callback = null)
+    {
+        return $this->stdDev($callback);
+    }
+
+    /**
      * Alias for the "contains" method.
      *
      * @param  mixed  $key
